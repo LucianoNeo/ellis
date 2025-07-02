@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 from database import engine, Base
 from routers.alunos import alunos_router
 from routers.cursos import cursos_router
@@ -16,6 +17,10 @@ app = FastAPI(
     """, 
     version="1.0.0",
 )
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
 
 app.include_router(alunos_router, tags=["alunos"])
 app.include_router(cursos_router, tags=["cursos"])
